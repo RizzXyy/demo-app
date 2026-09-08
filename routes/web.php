@@ -1,18 +1,28 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use App\Models\User;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+// 1. Tes Ambil Semua Post + Usernya (Eager Loading biar cepat / cegah N+1)
+Route::get('/posts', function () {
+    return Post::with('user')->get();
+});
+
+// 2. Tes Pencarian Aman (FindOrFail)
+Route::get('/posts/{id}', function ($id) {
+    return Post::findOrFail($id);
+});
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/posts', function () {
+    return Post::with('user')->get();
+});
+
+// 2. Tes Pencarian Aman (FindOrFail)
+Route::get('/posts/{id}', function ($id) {
+    return Post::findOrFail($id);
 });
